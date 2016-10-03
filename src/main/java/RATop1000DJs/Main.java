@@ -20,6 +20,8 @@ public class Main {
 //    	JunoGenres.getJunoInfo(driver, junoUrl);
     	
     	RADJInfo.getRADJInfo(driver);
+    	
+//    	FacebookLikes.getFBLikes(driver);
 	}
 
 }

@@ -34,6 +34,8 @@ public class RADJInfo {
 			while (rs.next()) {
 				if (rs.getString(12).equals("No")) {
 					driver.get(rs.getString(2));
+					System.out.println(rs.getString(2));
+					System.out.println(rs.getString(1));
 					for (WebElement we : CommonFunctions.getArrayOfElements(driver, UiMap.RADJs.dJInfoSection)) {
 						country = "N/A";
 						website = "N/A";
