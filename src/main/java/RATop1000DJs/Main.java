@@ -19,9 +19,13 @@ public class Main {
     	
 //    	JunoGenres.getJunoInfo(driver, junoUrl);
     	
-    	RADJInfo.getRADJInfo(driver);
+//    	RADJInfo.getRADJInfo(driver);
     	
 //    	FacebookLikes.getFBLikes(driver);
+    	
+//    	SetDJsToInclude.setDJs();
+    	
+    	GetDJsEmails.getEmails(driver);
 	}
 
 }

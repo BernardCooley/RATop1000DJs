@@ -8,12 +8,13 @@ import java.sql.SQLException;
 import org.openqa.selenium.WebDriver;
 
 import FrameworkUtils.CommonFunctions;
+import FrameworkUtils.CopyDBFile;
 import FrameworkUtils.DBConnection;
 
 public class FacebookLikes {
 
 	public static void getFBLikes(WebDriver driver) {
-
+		CopyDBFile.copyDBFile();
 		Connection con = null;
 		con = DBConnection.dbConnector();
 		PreparedStatement pst = null;
