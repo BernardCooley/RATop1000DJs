@@ -24,21 +24,34 @@ public class FacebookLikes {
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
-				if (rs.getString(13).equals("No")) {
-					if (!rs.getString(8).equals("N/A") || rs.getString(8).length() > 0) {
-						driver.get(rs.getString(8));
-						driver.get("https://www.facebook.com/HenrySaizOfficial/");
-						String likes = CommonFunctions.getElementText(driver, UiMap.FacebookPageElements.likes).replace(" likes", "").replace(",", "");
-						System.out.println(likes);
-						
-						String sqlUpdate = "UPDATE RATop1000DJs SET Facebook_Likes=? WHERE Name=?";
-						try {
-							pst = con.prepareStatement(sqlUpdate);
-							pst.setString(1, likes);
-							pst.setString(2, rs.getString(1));
-							pst.executeUpdate();
-						} catch (SQLException e) {
-							e.printStackTrace();
+				if (rs.getString(13) == null) {
+					if (rs.getString(8) != null) {
+						if (!rs.getString(8).equals("N/A")) {
+							System.out.println(rs.getString(8));
+							driver.get(rs.getString(8));
+							if (CommonFunctions.isElementVisible(driver, UiMap.FacebookPageElements.likes)) {
+								String likes = CommonFunctions.getElement(driver, UiMap.FacebookPageElements.likes).getText();
+								likes = likes.replace(" likes", "");
+								likes = likes.replace(",", "");
+								String sqlUpdate = "UPDATE RATop1000DJs SET Facebook_Likes=? WHERE Name=?";
+								try {
+									pst = con.prepareStatement(sqlUpdate);
+									pst.setString(1, likes);
+									pst.setString(2, rs.getString(1));
+									pst.executeUpdate();
+								} catch (SQLException e) {
+									e.printStackTrace();
+								}
+							}else {
+								String sqlUpdate = "UPDATE RATop1000DJs SET Facebook_Likes='N/A' WHERE Name=?";
+								try {
+									pst = con.prepareStatement(sqlUpdate);
+									pst.setString(1, rs.getString(1));
+									pst.executeUpdate();
+								} catch (SQLException e) {
+									e.printStackTrace();
+								}
+							}
 						}
 					}
 				}
