@@ -42,7 +42,7 @@ public class BrowserLauncher {
 			op.addArguments("--start-maximized");
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 	        capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-			System.setProperty("webdriver.chrome.driver", "chromedriver-3");
+			System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
 			driver = new ChromeDriver(op);
 			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		} 

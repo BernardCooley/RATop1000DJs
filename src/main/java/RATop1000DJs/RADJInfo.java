@@ -15,7 +15,6 @@ import FrameworkUtils.DBConnection;
 public class RADJInfo {
 
 	public static void getRADJInfo(WebDriver driver) {
-
 		Connection con = null;
 		con = DBConnection.dbConnector();
 		PreparedStatement pst = null;
@@ -28,6 +27,7 @@ public class RADJInfo {
 		
 		String sqlSelect = "SELECT * FROM RATop1000DJs";
 		try {
+			
 			pst = con.prepareStatement(sqlSelect);
 			ResultSet rs = pst.executeQuery();
 
