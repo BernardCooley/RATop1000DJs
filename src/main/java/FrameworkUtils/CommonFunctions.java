@@ -14,6 +14,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import UiMap.JDPageElements;
+
 public class CommonFunctions {
 
 	private static int timeOut = 5;
@@ -74,6 +76,14 @@ public class CommonFunctions {
 		we.click();
 		selection = we.getText();
 		return selection;
+	}
+	
+	public static void pressEnter(WebDriver driver, By element) {
+		if (driver.findElements(JDPageElements.searchBox).size() > 0) {
+			driver.findElement(JDPageElements.searchBox).sendKeys(Keys.ENTER);
+		} else {
+			System.err.println(element + " Not Found");
+		}
 	}
 	
 	// Get Elements
