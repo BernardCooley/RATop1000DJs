@@ -18,7 +18,7 @@ public class CopyDBFile {
 			date.getTime();
 
 			File afile = new File("Top1000DJs.sqlite");
-			File bfile = new File("Top1000DJs" + date.getTime() + ".sqlite");
+			File bfile = new File("DB_Backup\\Top1000DJs" + date.getTime() + ".sqlite");
 
 			inStream = new FileInputStream(afile);
 			outStream = new FileOutputStream(bfile);

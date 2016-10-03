@@ -34,6 +34,7 @@ public class JunoGenres {
 		String releaseAmount = null;
 		String currentURL = "N/A";
 		int listSize = 0;
+		StringBuilder sb = new StringBuilder();
 
 		// Get all label names from DB
 		String sqlSelect = "SELECT * FROM RATop1000DJs";
@@ -58,58 +59,34 @@ public class JunoGenres {
 			CommonFunctions.clickElement(driver, UiMap.JDPageElements.searchBtn);
 			CommonFunctions.customWait(driver, 2);
 			
-			for (WebElement we : CommonFunctions.getArrayOfElements(driver, UiMap.JDPageElements.genres)) {
-				if (we.findElements(By.cssSelector("a")).size() > 0) {
-					genresList.add(we.findElement(By.cssSelector("a > b > strong > div > abbr")).getText());
+			if (CommonFunctions.getArrayOfElements(driver, UiMap.JDPageElements.genres).size() > 0) {
+				for (WebElement we : CommonFunctions.getArrayOfElements(driver, UiMap.JDPageElements.genres)) {
+					if (we.findElements(By.cssSelector("a")).size() > 0) {
+						genresList.add(we.findElement(By.cssSelector("a > b > strong > div > abbr")).getText());
+					}
+				}
+				
+				for (String str : genresList) {
+					sb.append(str);
+					sb.append(", ");
+				}
+				sb.replace(sb.length()-2, sb.length(), "");
+				System.out.println(sb.toString());
+
+				String sqlUpdate = "UPDATE RATop1000DJs SET Genres=?, Juno_Genre_Scanned='Yes' WHERE Name=?";
+
+				try {
+					pst = con.prepareStatement(sqlUpdate);
+					pst.setString(1, sb.toString());
+					pst.setString(2, s);
+					pst.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
 			
-			StringBuilder sb = new StringBuilder();
-			
-			for (String str : genresList) {
-				sb.append(str);
-				sb.append(", ");
-			}
-			sb.replace(sb.length()-2, sb.length(), "");
-			
-			System.out.println(sb.toString());
-			
-			
-//			String sqlUpdate = "UPDATE RATop1000DJs SET Genres=";
-//			
-//			try {
-//				pst = con.prepareStatement(sqlUpdate);
-//				pst.setString(1, );
-//				pst.setString(2, );
-//				pst.executeUpdate();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			CommonFunctions.customWait(driver, 5);
+			sb.setLength(0);
 			driver.get(junoUrl);
-			
-			
-			
 		}
-		
-		
-		
-		
-		
-		
-
 	}
-
 }
