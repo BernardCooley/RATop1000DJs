@@ -50,7 +50,8 @@ public class BrowserLauncher {
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			capabilities.setCapability("takesScreenshot", false);
 			String d = "\\";
-			capabilities.setCapability("phantomjs.binary.path", "..\\RAEventDJs\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe");
+			capabilities.setCapability("phantomjs.binary.path", "phantomjs-2.1.1-linux-x86_64/bin/phantomjs");
+//			capabilities.setCapability("phantomjs.binary.path", "..\\RAEventDJs\\phantomjs-2.1.1-windows\\bin\\phantomjs");
 	        capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 	        capabilities.setCapability("load-images", false);
 			driver = new PhantomJSDriver(capabilities);

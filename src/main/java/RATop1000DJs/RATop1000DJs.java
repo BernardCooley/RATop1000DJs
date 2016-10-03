@@ -24,7 +24,7 @@ public class RATop1000DJs {
 
 		int count = 9;
 
-		WebElement we = CommonFunctions.getArrayOfElements(driver, RADJs.DJs).get(count);
+		WebElement we = CommonFunctions.getArrayOfElements(driver, RADJs.dJs).get(count);
 
 		if (we.findElements(By.cssSelector("span:nth-of-type(3)")).size() > 0) {
 			for (WebElement we1 : we.findElements(By.cssSelector("span:nth-of-type(3) > a"))) {

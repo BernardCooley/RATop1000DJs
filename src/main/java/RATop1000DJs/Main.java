@@ -17,7 +17,9 @@ public class Main {
 		
 //		RATop1000DJs.getTop1000DJs(driver, url);
     	
-    	JunoGenres.getJunoInfo(driver, junoUrl);
+//    	JunoGenres.getJunoInfo(driver, junoUrl);
+    	
+    	RADJInfo.getRADJInfo(driver);
 	}
 
 }
