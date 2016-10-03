@@ -36,7 +36,7 @@ public class CopyDBFile {
 			inStream.close();
 			outStream.close();
 
-//			System.out.println("File is copied successfully!");
+			System.out.println("File is copied successfully!");
 
 		} catch (IOException e) {
 			e.printStackTrace();
