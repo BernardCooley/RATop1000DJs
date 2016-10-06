@@ -8,24 +8,24 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		String rAUrl = "https://www.residentadvisor.net/dj.aspx?genre=list";
+		String rAUrl = "https://www.residentadvisor.net/dj.aspx";
 		String junoUrl = "http://www.junodownload.com/";
 		
-		String browser = "Firefox";
+		String browser = "Chrome";
 		BrowserLauncher bL = new BrowserLauncher();
     	WebDriver driver = bL.launchBrowser(browser);
 		
-//		RATop1000DJs.getTop1000DJs(driver, url);
+//		RATop1000DJs.getTop1000DJs(driver, rAUrl);
     	
 //    	JunoGenres.getJunoInfo(driver, junoUrl);
     	
-//    	RADJInfo.getRADJInfo(driver);
+    	RADJInfo.getRADJInfo(driver);
     	
 //    	FacebookLikes.getFBLikes(driver);
     	
 //    	SetDJsToInclude.setDJs();
     	
-    	GetDJsEmails.getEmails(driver);
+//    	GetDJsEmails.getEmails(driver);
 	}
 
 }
