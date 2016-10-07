@@ -11,7 +11,7 @@ public class Main {
 		String rAUrl = "https://www.residentadvisor.net/dj.aspx";
 		String junoUrl = "http://www.junodownload.com/";
 		
-		String browser = "Chrome";
+		String browser = "PhantomJS";
 		BrowserLauncher bL = new BrowserLauncher();
     	WebDriver driver = bL.launchBrowser(browser);
 		

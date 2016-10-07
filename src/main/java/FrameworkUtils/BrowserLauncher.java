@@ -22,6 +22,7 @@ public class BrowserLauncher {
 	}
 	
 	public WebDriver launchBrowser(String BrowserName) {
+		String osName = System.getProperty("os.name").toLowerCase();
 		if(BrowserName.equalsIgnoreCase("Firefox")) {
 //			FirefoxProfile p = new FirefoxProfile(new File("C:\\Users\\Bernard\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\0g0i8bia.default"));
 //			p.setPreference("permissions.default.image", 2);
@@ -42,7 +43,13 @@ public class BrowserLauncher {
 			op.addArguments("--start-maximized");
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 	        capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-			System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+	        if (osName.contains("mac")) {
+	        	System.setProperty("webdriver.chrome.driver", "chromedriver-3");
+			} else if (osName.contains("linux")) {
+				System.setProperty("webdriver.chrome.driver", "chromedriver");
+			} else if (osName.contains("windows")) {
+				System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+			}
 			driver = new ChromeDriver(op);
 			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		} 

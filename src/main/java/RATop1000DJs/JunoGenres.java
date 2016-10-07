@@ -44,6 +44,7 @@ public class JunoGenres {
 		driver.get(junoUrl);
 
 		for (String s : namesList) {
+			System.out.println("****************************************************************************************");
 			CommonFunctions.clearTextField(driver, UiMap.JDPageElements.searchBox);
 			CommonFunctions.enterString(driver, UiMap.JDPageElements.searchBox, "\"" + s.toLowerCase() + "\"");
 			Select select = new Select(driver.findElement(UiMap.JDPageElements.typeDropdown));
@@ -51,18 +52,23 @@ public class JunoGenres {
 			CommonFunctions.clickElement(driver, UiMap.JDPageElements.searchBtn);
 			CommonFunctions.customWait(driver, 2);
 			try {
-				if (CommonFunctions.getArrayOfElements(driver, UiMap.JDPageElements.genres).size() > 0) {
-					System.out.println(namesList.indexOf(s) + " of " + namesList.size());
+				if (driver.findElements(UiMap.JDPageElements.genres).size() > 0) {
 					for (WebElement we : CommonFunctions.getArrayOfElements(driver, UiMap.JDPageElements.genres)) {
 						if (we.getText().contains("Genre")) {
 							genresSplit = we.getText().split("\\r?\\n");
-							sb.append(genresSplit[2] + ", ");
-							sb.append(genresSplit[4] + ", ");
-							sb.append(genresSplit[6]);
+							for (int i = 2; i < genresSplit.length; i+=2) {
+								sb.append(genresSplit[i] + ", ");
+								if (i == 6) {
+									break;
+								}
+							}
 						}
 					}
+					sb.replace(sb.length()-2, sb.length(), "");
 				}
+				System.out.println(s);
 				System.out.println(sb.toString());
+				System.out.println(namesList.size() - namesList.indexOf(s) + " remaining");
 				String sqlUpdate = "UPDATE Top1000 SET Genres=?, Juno_Genre_Scanned='Yes', Juno_URL=? WHERE Name=?";
 
 				pst = con.prepareStatement(sqlUpdate);

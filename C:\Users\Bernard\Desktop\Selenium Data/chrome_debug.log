@@ -1,0 +1,5 @@
+[4358:4358:1007/104839:WARNING:password_store_factory.cc(250)] Using basic (unencrypted) store for password storage. See https://chromium.googlesource.com/chromium/src/+/master/docs/linux_password_storage.md for more information about password storage options.
+[4416:4416:1007/104839:ERROR:sandbox_linux.cc(343)] InitializeSandbox() called with multiple threads in process gpu-process. 
+[4358:4358:1007/105032:WARNING:pref_notifier_impl.cc(27)] pref observer found at shutdown plugins.always_authorize
+[4358:4358:1007/105032:WARNING:pref_notifier_impl.cc(27)] pref observer found at shutdown plugins.allow_outdated
+[4358:4358:1007/105032:WARNING:pref_notifier_impl.cc(27)] pref observer found at shutdown printing.enabled
