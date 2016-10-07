@@ -17,13 +17,11 @@ public class Main {
 		
 //		RATop1000DJs.getTop1000DJs(driver, rAUrl);
     	
-//    	JunoGenres.getJunoInfo(driver, junoUrl);
+    	JunoGenres.getJunoInfo(driver, junoUrl);
     	
-    	RADJInfo.getRADJInfo(driver);
+//    	RADJInfo.getRADJInfo(driver);
     	
 //    	FacebookLikes.getFBLikes(driver);
-    	
-//    	SetDJsToInclude.setDJs();
     	
 //    	GetDJsEmails.getEmails(driver);
 	}

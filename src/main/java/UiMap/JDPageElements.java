@@ -35,7 +35,8 @@ public class JDPageElements {
 	
 	public static final By typeDropdown = By.cssSelector("select#search-in-start");
 	public static final By searchBtn = By.cssSelector("button.submit-search");
-	public static final By genres = By.cssSelector("ul.facetlist_container:nth-of-type(4) > li");
+//	public static final By genres = By.cssSelector("ul.facetlist_container:nth-of-type(4) > li");
+	public static final By genres = By.cssSelector("ul.facetlist_container");
 	
 													
 //	public static final By  = By.xpath("");

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +20,7 @@ import FrameworkUtils.DBConnection;
 public class RADJInfo {
 
 	public static void getRADJInfo(WebDriver driver) {
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		CopyDBFile.copyDBFile();
 		Connection con = null;
 		con = DBConnection.dbConnector();
@@ -46,17 +48,23 @@ public class RADJInfo {
 					for (WebElement we : CommonFunctions.getArrayOfElements(driver, UiMap.RADJs.dJInfoSection)) {
 
 						if (we.getText().contains("Country")) {
-							if (we.findElements(By.cssSelector("li > span > a > span")).size() > 0) {
-								country = we.findElement(By.cssSelector("li > span > a > span")).getText();
-							}
-							if (we.findElements(By.cssSelector("li:nth-of-type(2) > span > a > span")).size() > 0) {
+							
+							try {
 								country = we.findElement(By.cssSelector("li:nth-of-type(2) > span > a > span")).getText();
-							}
-							if (we.findElements(By.cssSelector("li:nth-of-type(3) > span > a > span")).size() > 0) {
-								country = we.findElement(By.cssSelector("li:nth-of-type(3) > span > a > span")).getText();
-							}
-							if (we.findElements(By.cssSelector("span > a > span")).size() > 0) {
-								country = we.findElement(By.cssSelector("span > a > span")).getText();
+							} catch (Exception e) {
+								try {
+									country = we.findElement(By.cssSelector("li:nth-of-type(3) > span > a > span")).getText();
+								} catch (Exception e1) {
+									try {
+										country = we.findElement(By.cssSelector("li > span > a > span")).getText();
+									} catch (Exception e2) {
+										try {
+											country = we.findElement(By.cssSelector("span > a > span")).getText();
+										} catch (Exception e3) {
+											country = "N/A";
+										}
+									}
+								}
 							}
 						}
 						if (we.getText().contains("On the internet")) {

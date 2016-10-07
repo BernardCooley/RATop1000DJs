@@ -5,9 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -19,74 +18,64 @@ import FrameworkUtils.DBConnection;
 public class JunoGenres {
 
 	public static void getJunoInfo(WebDriver driver, String junoUrl) {
-
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		CopyDBFile.copyDBFile();
 		Connection con = null;
 		con = DBConnection.dbConnector();
 		PreparedStatement pst = null;
 		ArrayList<String> namesList = new ArrayList<String>();
-		ArrayList<String> genresList = new ArrayList<String>();
-		ArrayList<WebElement> namesElementList = new ArrayList<WebElement>();
-		ArrayList<WebElement> releaseAmtElementList = new ArrayList<WebElement>();
-		List<By> namesByList = new ArrayList<By>();
-		List<By> releaseAmtByList = new ArrayList<By>();
-		String name = null;
-		String releaseAmount = null;
-		String currentURL = "N/A";
-		int listSize = 0;
 		StringBuilder sb = new StringBuilder();
+		String[] genresSplit = null;
 
 		// Get all label names from DB
-		String sqlSelect = "SELECT * FROM RATop1000DJs";
+		String sqlSelect = "SELECT * FROM Top1000";
 		try {
 			pst = con.prepareStatement(sqlSelect);
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
-				namesList.add(rs.getString(1));
-				// junoURLList.add(rs.getString(13));
+				if (rs.getString(11).equals("No")) {
+					namesList.add(rs.getString(1));
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		driver.get(junoUrl);
-		
+
 		for (String s : namesList) {
-			CommonFunctions.enterString(driver, UiMap.JDPageElements.searchBox, "\""+s.toLowerCase()+"\"");
+			CommonFunctions.clearTextField(driver, UiMap.JDPageElements.searchBox);
+			CommonFunctions.enterString(driver, UiMap.JDPageElements.searchBox, "\"" + s.toLowerCase() + "\"");
 			Select select = new Select(driver.findElement(UiMap.JDPageElements.typeDropdown));
 			select.selectByVisibleText("Artists");
 			CommonFunctions.clickElement(driver, UiMap.JDPageElements.searchBtn);
 			CommonFunctions.customWait(driver, 2);
-			
-			if (CommonFunctions.getArrayOfElements(driver, UiMap.JDPageElements.genres).size() > 0) {
-				for (WebElement we : CommonFunctions.getArrayOfElements(driver, UiMap.JDPageElements.genres)) {
-					if (we.findElements(By.cssSelector("a")).size() > 0) {
-						genresList.add(we.findElement(By.cssSelector("a > b > strong > div > abbr")).getText());
+			try {
+				if (CommonFunctions.getArrayOfElements(driver, UiMap.JDPageElements.genres).size() > 0) {
+					System.out.println(namesList.indexOf(s) + " of " + namesList.size());
+					for (WebElement we : CommonFunctions.getArrayOfElements(driver, UiMap.JDPageElements.genres)) {
+						if (we.getText().contains("Genre")) {
+							genresSplit = we.getText().split("\\r?\\n");
+							sb.append(genresSplit[2] + ", ");
+							sb.append(genresSplit[4] + ", ");
+							sb.append(genresSplit[6]);
+						}
 					}
 				}
-				
-				for (String str : genresList) {
-					sb.append(str);
-					sb.append(", ");
-				}
-				sb.replace(sb.length()-2, sb.length(), "");
 				System.out.println(sb.toString());
+				String sqlUpdate = "UPDATE Top1000 SET Genres=?, Juno_Genre_Scanned='Yes', Juno_URL=? WHERE Name=?";
 
-				String sqlUpdate = "UPDATE RATop1000DJs SET Genres=?, Juno_Genre_Scanned='Yes' WHERE Name=?";
+				pst = con.prepareStatement(sqlUpdate);
+				pst.setString(1, sb.toString());
+				pst.setString(2, driver.getCurrentUrl());
+				pst.setString(3, s);
 
-				try {
-					pst = con.prepareStatement(sqlUpdate);
-					pst.setString(1, sb.toString());
-					pst.setString(2, s);
-					pst.executeUpdate();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				pst.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
 			}
-			
 			sb.setLength(0);
-			driver.get(junoUrl);
 		}
 	}
 }
