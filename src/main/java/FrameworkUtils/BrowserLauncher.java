@@ -64,6 +64,14 @@ public class BrowserLauncher {
 			driver = new PhantomJSDriver(capabilities);
 			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		}
+		else if (BrowserName.equalsIgnoreCase("PhantomJS")) {
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver.exe");
+	        DesiredCapabilities cap = DesiredCapabilities.firefox();
+	        cap.setCapability("marionette", true);
+	        cap.setBrowserName("firefox");
+	        driver = new RemoteWebDriver(new URL("http://192.168.117.135:5555/wd/hub"), cap);
+		}
 		
         return driver;
     }
