@@ -11,19 +11,27 @@ public class Main {
 		String rAUrl = "https://www.residentadvisor.net/dj.aspx";
 		String junoUrl = "http://www.junodownload.com/";
 		
-		String browser = "Firefox";
+		String browser = "Chrome";
 		BrowserLauncher bL = new BrowserLauncher();
     	WebDriver driver = bL.launchBrowser(browser);
 		
 //		RATop1000DJs.getTop1000DJs(driver, rAUrl);
     	
-    	JunoGenres.getJunoInfo(driver, junoUrl);
+//    	JunoGenres.getJunoInfo(driver, junoUrl);
     	
 //    	RADJInfo.getRADJInfo(driver);
     	
 //    	FacebookLikes.getFBLikes(driver);
     	
 //    	GetDJsEmails.getEmails(driver);
+    	
+//    	GetDJsEmails.getEmailAddressesFromGoogle(driver);
+    	
+//    	Soundcloud.sendSoundcloudMessages(driver);
+    	
+//    	EmailAddressesFromTextFile.getEmailAddressesFromTextFile();
+    	
+    	ValidEmailCheck.checkEmailValidity(driver);
 	}
 
 }

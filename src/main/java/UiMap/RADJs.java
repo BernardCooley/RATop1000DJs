@@ -6,4 +6,5 @@ public class RADJs {
 
 	public static final By dJs = By.cssSelector("section.content > div > div");
 	public static final By dJInfoSection = By.cssSelector("ul.clearfix");
+	public static final By country = By.cssSelector("span[itemprop='country']");
 }

@@ -31,100 +31,63 @@ public class RADJInfo {
 		String soundcloud = "N/A";
 		String discogs = "N/A";
 		String facebook = "N/A";
-		Map<String, String> info = new HashMap<String, String>();
 
 		String sqlSelect = "SELECT * FROM Top1000";
 		try {
 
 			pst = con.prepareStatement(sqlSelect);
 			ResultSet rs = pst.executeQuery();
-
+			
 			while (rs.next()) {
 				if (rs.getString(12).equals("No")) {
 					driver.get(rs.getString(2));
-					System.out.println(rs.getString(2));
-					System.out.println(rs.getString(1));
-					country = "N/A";
-					for (WebElement we : CommonFunctions.getArrayOfElements(driver, UiMap.RADJs.dJInfoSection)) {
-
-						if (we.getText().contains("Country")) {
-							
-							try {
-								country = we.findElement(By.cssSelector("li:nth-of-type(2) > span > a > span")).getText();
-							} catch (Exception e) {
-								try {
-									country = we.findElement(By.cssSelector("li:nth-of-type(3) > span > a > span")).getText();
-								} catch (Exception e1) {
-									try {
-										country = we.findElement(By.cssSelector("li > span > a > span")).getText();
-									} catch (Exception e2) {
-										try {
-											country = we.findElement(By.cssSelector("span > a > span")).getText();
-										} catch (Exception e3) {
-											country = "N/A";
-										}
-									}
-								}
-							}
-						}
-						if (we.getText().contains("On the internet")) {
-							System.out.println("Name: " + rs.getString(1));
-
-							for (WebElement we1 : we.findElements(By.cssSelector("a"))) {
-								info.put(we.getText(), we1.getAttribute("href"));
-							}
-						}
+					
+					if (driver.findElements(UiMap.RADJs.country).size() > 0) {
+						country = CommonFunctions.getElementText(driver, UiMap.RADJs.country);
+					} else {
+						country = "N/A";
 					}
-
-					website = "N/A";
-					twitter = "N/A";
-					soundcloud = "N/A";
-					discogs = "N/A";
-					facebook = "N/A";
-
-					Iterator it = info.entrySet().iterator();
-					while (it.hasNext()) {
-						Map.Entry pair = (Map.Entry) it.next();
-						if (pair.getKey().toString().contains("Website")) {
-							website = pair.getValue().toString();
-						}
-						if (pair.getKey().toString().contains("Twitter")) {
-							twitter = pair.getValue().toString();
-						}
-						if (pair.getKey().toString().contains("SoundCloud")
-								|| pair.getKey().toString().contains("Soundcloud")) {
-							soundcloud = pair.getValue().toString();
-						}
-						if (pair.getKey().toString().contains("Discogs")) {
-							discogs = pair.getValue().toString();
-						}
-						if (pair.getKey().toString().contains("Facebook")) {
-							facebook = pair.getValue().toString();
-						}
+					if (driver.findElements(By.xpath("//a[contains(text(),'SoundCloud')]")).size() > 0) {
+						soundcloud = driver.findElement(By.xpath("//a[contains(text(),'SoundCloud')]")).getAttribute("href");
+					} else {
+						soundcloud = "N/A";
+					}
+					if (driver.findElements(By.xpath("//a[contains(text(),'Twitter')]")).size() > 0) {
+						twitter = driver.findElement(By.xpath("//a[contains(text(),'Twitter')]")).getAttribute("href");
+					} else {
+						twitter = "N/A";
+					}
+					if (driver.findElements(By.xpath("//a[contains(text(),'Website')]")).size() > 0) {
+						website = driver.findElement(By.xpath("//a[contains(text(),'Website')]")).getAttribute("href");
+					} else {
+						website = "N/A";
+					}
+					if (driver.findElements(By.xpath("//a[contains(text(),'Facebook')]")).size() > 0) {
+						facebook = driver.findElement(By.xpath("//a[contains(text(),'Facebook')]")).getAttribute("href");
+					} else {
+						facebook = "N/A";
+					}
+					if (driver.findElements(By.xpath("//a[contains(text(),'Discogs')]")).size() > 0) {
+						discogs = driver.findElement(By.xpath("//a[contains(text(),'Discogs')]")).getAttribute("href");
+					} else {
+						discogs = "N/A";
 					}
 
 					String sqlUpdate = "UPDATE Top1000 SET Country=?, Website=?, Twitter=?, Soundcloud=?, Discogs=?, Facebook=?, RA_DJ_Info_Scanned='Yes' WHERE Name=?";
 					try {
 						pst = con.prepareStatement(sqlUpdate);
-						System.out.println("Country: " + country);
 						pst.setString(1, country);
-						System.out.println("Website: " + website);
 						pst.setString(2, website);
-						System.out.println("Twitter: " + twitter);
 						pst.setString(3, twitter);
-						System.out.println("Soundcloud: " + soundcloud);
 						pst.setString(4, soundcloud);
-						System.out.println("Discogs: " + discogs);
 						pst.setString(5, discogs);
-						System.out.println("Facebook: " + facebook);
 						pst.setString(6, facebook);
 						pst.setString(7, rs.getString(1));
 						pst.executeUpdate();
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-					System.out.println();
-					info.clear();
+					System.out.println(rs.getString(1));
 				}
 			}
 		} catch (SQLException e) {
